@@ -20,7 +20,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         self.statusItem = statusItem
 
         if let button = statusItem.button {
-            button.title = "IP"
+            button.title = StatusDisplay.menuBarTitle(for: nil)
             button.toolTip = "Local IP Address"
         }
 
@@ -45,7 +45,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         currentIPAddress = IPAddressProvider.currentPreferredIPv4Address()
 
         let displayAddress = currentIPAddress ?? "Unavailable"
-        statusItem?.button?.title = displayAddress
+        statusItem?.button?.title = StatusDisplay.menuBarTitle(for: currentIPAddress)
+        statusItem?.button?.toolTip = "Local IP: \(displayAddress)"
         ipMenuItem.title = "Local IP: \(displayAddress)"
         copyMenuItem.isEnabled = currentIPAddress != nil
     }
