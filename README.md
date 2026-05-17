@@ -83,7 +83,7 @@ export APPLE_APP_SPECIFIC_PASSWORD="xxxx-xxxx-xxxx-xxxx"
 
 Local development builds are ad-hoc signed and are not notarized.
 
-The GitHub release workflow expects these repository secrets:
+The GitHub release workflow is manual-only until signing/notarization secrets are configured. It expects these repository secrets:
 
 - `CODE_SIGN_IDENTITY`
 - `APPLE_ID`
