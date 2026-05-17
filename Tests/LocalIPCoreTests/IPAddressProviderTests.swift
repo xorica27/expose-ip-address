@@ -69,3 +69,17 @@ func describesLaunchAtLoginState() {
     #expect(StatusDisplay.launchAtLoginTitle(isEnabled: true) == "Launch at Login: On")
     #expect(StatusDisplay.launchAtLoginTitle(isEnabled: false) == "Launch at Login: Off")
 }
+
+@Test("uses a brief copied title for pasteboard feedback")
+func usesCopiedTitleForPasteboardFeedback() {
+    #expect(StatusDisplay.copyFeedbackTitle() == "Copied")
+}
+
+@Test("formats about text with version build and privacy note")
+func formatsAboutTextWithVersionBuildAndPrivacyNote() {
+    let text = StatusDisplay.aboutInformativeText(version: "1.0.0", build: "12")
+
+    #expect(text.contains("Version 1.0.0 (12)"))
+    #expect(text.contains("No data leaves your Mac."))
+    #expect(text.contains("https://github.com/xorica27/expose-ip-address"))
+}

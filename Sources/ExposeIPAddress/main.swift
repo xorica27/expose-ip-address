@@ -1,15 +1,20 @@
 import AppKit
 import LocalIPCore
+import Network
 import ServiceManagement
 
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem?
     private var currentIPAddress: String?
+    private let networkMonitor = NWPathMonitor()
+    private let networkMonitorQueue = DispatchQueue(label: "com.xorica.expose-ip-address.network-monitor")
+    private var copyFeedbackTask: Task<Void, Never>?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
         configureStatusItem()
+        startNetworkMonitor()
         refreshIPAddress()
     }
 
@@ -93,6 +98,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(NSMenuItem.separator())
 
+        let aboutItem = NSMenuItem(title: "About Exposé IP Address", action: #selector(showAbout), keyEquivalent: "")
+        aboutItem.target = self
+        menu.addItem(aboutItem)
+
         let quitItem = NSMenuItem(title: "Quit", action: #selector(quit), keyEquivalent: "q")
         quitItem.target = self
         menu.addItem(quitItem)
@@ -134,6 +143,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(currentIPAddress, forType: .string)
+        showCopyFeedback()
     }
 
     @objc
@@ -144,6 +154,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(ipAddress, forType: .string)
+        showCopyFeedback()
     }
 
     @objc
@@ -169,7 +180,43 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc
+    private func showAbout() {
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0.0"
+        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "dev"
+
+        let alert = NSAlert()
+        alert.messageText = "Exposé IP Address"
+        alert.informativeText = StatusDisplay.aboutInformativeText(version: version, build: build)
+        alert.icon = NSApp.applicationIconImage
+        alert.addButton(withTitle: "OK")
+        alert.runModal()
+    }
+
+    private func startNetworkMonitor() {
+        networkMonitor.pathUpdateHandler = { [weak self] _ in
+            Task { @MainActor in
+                self?.refreshIPAddress()
+            }
+        }
+        networkMonitor.start(queue: networkMonitorQueue)
+    }
+
+    private func showCopyFeedback() {
+        copyFeedbackTask?.cancel()
+        statusItem?.button?.title = StatusDisplay.copyFeedbackTitle()
+        statusItem?.button?.toolTip = "Copied to Clipboard"
+        copyFeedbackTask = Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 1_200_000_000)
+            guard !Task.isCancelled else {
+                return
+            }
+            refreshIPAddress()
+        }
+    }
+
+    @objc
     private func quit() {
+        networkMonitor.cancel()
         NSApp.terminate(nil)
     }
 }

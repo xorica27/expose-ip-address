@@ -21,6 +21,7 @@ let package = Package(
             name: "ExposeIPAddress",
             dependencies: ["LocalIPCore"],
             linkerSettings: [
+                .linkedFramework("Network"),
                 .linkedFramework("ServiceManagement")
             ]
         ),

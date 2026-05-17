@@ -6,6 +6,9 @@ APP_NAME="Exposé IP Address"
 BUNDLE_ID="com.xorica.expose-ip-address"
 EXECUTABLE_NAME="ExposeIPAddress"
 CONFIGURATION="release"
+APP_VERSION="$(tr -d '[:space:]' < "$ROOT_DIR/VERSION")"
+BUILD_NUMBER="${BUILD_NUMBER:-$(git rev-list --count HEAD 2>/dev/null || echo 1)}"
+CODE_SIGN_IDENTITY="${CODE_SIGN_IDENTITY:--}"
 
 cd "$ROOT_DIR"
 
@@ -56,11 +59,15 @@ cat > "$CONTENTS_DIR/Info.plist" <<PLIST
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.0</string>
+    <string>$APP_VERSION</string>
     <key>CFBundleVersion</key>
-    <string>1</string>
+    <string>$BUILD_NUMBER</string>
+    <key>LSApplicationCategoryType</key>
+    <string>public.app-category.utilities</string>
     <key>LSMinimumSystemVersion</key>
     <string>13.0</string>
+    <key>NSHumanReadableCopyright</key>
+    <string>Copyright © 2026 xorica27. All rights reserved.</string>
     <key>LSUIElement</key>
     <true/>
     <key>NSHighResolutionCapable</key>
@@ -69,6 +76,10 @@ cat > "$CONTENTS_DIR/Info.plist" <<PLIST
 </plist>
 PLIST
 
-codesign --force --deep --sign - "$APP_DIR" >/dev/null
+if [[ "$CODE_SIGN_IDENTITY" == "-" ]]; then
+    codesign --force --deep --sign - "$APP_DIR" >/dev/null
+else
+    codesign --force --deep --options runtime --timestamp --sign "$CODE_SIGN_IDENTITY" "$APP_DIR" >/dev/null
+fi
 
 echo "Built $APP_DIR"
