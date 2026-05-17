@@ -21,7 +21,11 @@ Move the app to `/Applications`, open it once, and enable `Launch at Login` from
 
 ### macOS says the app cannot be opened
 
-Local development builds are ad-hoc signed. Public releases should be Developer ID signed and notarized.
+macOS shows this warning when an app is not Developer ID signed and notarized by Apple.
+
+For the best install experience, download the latest public release. Public release DMGs should be Developer ID signed, notarized, and stapled so users can open the app after dragging it into `Applications`.
+
+If you built the app yourself from source, macOS may still show this warning because local development builds are ad-hoc signed.
 
 ## Reporting Issues
 

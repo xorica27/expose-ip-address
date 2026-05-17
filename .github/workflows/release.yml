@@ -25,13 +25,23 @@ jobs:
           test -n "${APPLE_ID}"
           test -n "${APPLE_TEAM_ID}"
           test -n "${APPLE_APP_SPECIFIC_PASSWORD}"
+          test -n "${APPLE_DEVELOPER_ID_CERTIFICATE_BASE64}"
+          test -n "${APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD}"
           test -n "${DMGFORGE_CLI_URL}"
         env:
           CODE_SIGN_IDENTITY: ${{ secrets.CODE_SIGN_IDENTITY }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_DEVELOPER_ID_CERTIFICATE_BASE64: ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_BASE64 }}
+          APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD }}
           DMGFORGE_CLI_URL: ${{ secrets.DMGFORGE_CLI_URL }}
+
+      - name: Import Developer ID certificate
+        run: ./scripts/import-developer-id-certificate.sh
+        env:
+          APPLE_DEVELOPER_ID_CERTIFICATE_BASE64: ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_BASE64 }}
+          APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD }}
 
       - name: Build signed app bundle
         run: ./scripts/build-app.sh
@@ -50,6 +60,8 @@ jobs:
 
       - name: Package DMG with DMGForge
         run: ./scripts/package-dmg.sh
+        env:
+          CODE_SIGN_IDENTITY: ${{ secrets.CODE_SIGN_IDENTITY }}
 
       - name: Notarize DMG
         run: ./scripts/notarize-dmg.sh "release/Exposé IP Address.dmg"

@@ -21,6 +21,8 @@ https://github.com/xorica27/expose-ip-address/releases/latest
 
 Open the DMG, then drag `Exposé IP Address.app` into `Applications`.
 
+For the smoothest first launch, public DMGs should be Developer ID signed and notarized by Apple. If you see a macOS warning that the app cannot be opened, use the latest notarized release or see [SUPPORT.md](SUPPORT.md).
+
 ## How To Use
 
 After opening the app, your primary local IP appears in the macOS menu bar.
@@ -86,7 +88,7 @@ The DMG is created at `release/Exposé IP Address.dmg`.
 
 Local development builds are ad-hoc signed and are not notarized.
 
-For public distribution, use a Developer ID Application certificate and Apple notarization credentials:
+For public distribution, use a Developer ID Application certificate and Apple notarization credentials. This prevents the extra Security Settings > Open Anyway step for users downloading the DMG.
 
 ```sh
 export CODE_SIGN_IDENTITY="Developer ID Application: Your Name (TEAMID)"
@@ -103,7 +105,15 @@ The GitHub release workflow is manual-only until signing/notarization secrets ar
 - `APPLE_ID`
 - `APPLE_TEAM_ID`
 - `APPLE_APP_SPECIFIC_PASSWORD`
+- `APPLE_DEVELOPER_ID_CERTIFICATE_BASE64`
+- `APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD`
 - `DMGFORGE_CLI_URL`, a zip URL containing a `dmgforge` executable at the archive root
+
+Create `APPLE_DEVELOPER_ID_CERTIFICATE_BASE64` from the exported `.p12` certificate:
+
+```sh
+base64 -i DeveloperIDApplication.p12 | tr -d '\n' | pbcopy
+```
 
 ## License
 

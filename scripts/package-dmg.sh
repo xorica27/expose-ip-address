@@ -17,6 +17,11 @@ rm -rf "$ROOT_DIR/release/dmgforge-work" "$OUTPUT_PATH"
 
 dmgforge validate "$PROJECT_PATH"
 dmgforge export "$PROJECT_PATH" --output "$OUTPUT_PATH"
+
+if [[ -n "${CODE_SIGN_IDENTITY:-}" && "${CODE_SIGN_IDENTITY}" != "-" ]]; then
+    codesign --force --timestamp --sign "$CODE_SIGN_IDENTITY" "$OUTPUT_PATH" >/dev/null
+fi
+
 hdiutil verify "$OUTPUT_PATH" >/dev/null
 
 echo "Packaged $OUTPUT_PATH"
