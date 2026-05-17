@@ -1,0 +1,33 @@
+{
+  "appName" : "Exposé IP Address",
+  "appPath" : "dist\/Exposé IP Address.app",
+  "background" : {
+    "description" : "Drag Exposé IP Address into Applications to install.",
+    "footer" : "Shows your primary local IP and active Wi‑Fi\/LAN addresses from the menu bar.",
+    "mode" : "generated",
+    "title" : "Install Exposé IP Address"
+  },
+  "guideArrow" : {
+    "color" : "#444444",
+    "thickness" : 7,
+    "visible" : true
+  },
+  "layout" : {
+    "appIcon" : {
+      "x" : 190,
+      "y" : 198
+    },
+    "applicationsIcon" : {
+      "x" : 500,
+      "y" : 198
+    }
+  },
+  "outputPath" : "release\/Exposé IP Address.dmg",
+  "schemaVersion" : 1,
+  "version" : "1.0.0",
+  "volumeName" : "Exposé IP Address 1.0.0",
+  "window" : {
+    "height" : 420,
+    "width" : 680
+  }
+}
