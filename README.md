@@ -1,74 +1,90 @@
 # Exposé IP Address
 
-Exposé IP Address is a tiny macOS menu bar app that shows your primary local IPv4 address at a glance.
+Exposé IP Address is a small macOS menu bar app that shows your Mac's local IP address at a glance.
 
-It is built for the practical “what IP is this Mac using right now?” moment, especially when Wi-Fi and LAN/Ethernet may both be connected.
+It is useful when you are setting up local servers, testing devices on the same network, sharing a development URL, or switching between Wi-Fi and Ethernet and just need to know which IP your Mac is actually using.
 
-## Features
+## What It Does
 
-- Shows the primary local IP address macOS is using for outbound traffic
-- Lists all active local IPv4 addresses in the menu
-- Uses Wi-Fi/LAN icons for interface rows
-- Copies the primary IP or any listed interface IP
-- Refreshes automatically when the network path changes
-- Includes a Launch at Login toggle
-- Includes an About window with version and privacy details
+- Shows your primary local IP address directly in the menu bar
+- Lists active Wi-Fi, Ethernet/LAN, and other local IPv4 addresses
+- Lets you copy the primary IP or any listed interface IP
+- Refreshes automatically when your network changes
+- Can launch automatically when you log in
+- Includes a simple About window with version and privacy details
 
-## Install
+## Download
 
-Download the latest DMG from the GitHub release page:
+Download the latest DMG from the releases page:
 
 https://github.com/xorica27/expose-ip-address/releases/latest
 
 Open the DMG, then drag `Exposé IP Address.app` into `Applications`.
 
-## Run
+## How To Use
+
+After opening the app, your primary local IP appears in the macOS menu bar.
+
+Click the IP address to open the menu. From there you can:
+
+- copy the primary IP
+- copy a specific Wi-Fi or LAN IP
+- refresh the address list
+- turn Launch at Login on or off
+- view app/version details
+- quit the app
+
+## Privacy
+
+Exposé IP Address stays local. It reads macOS network interface information so it can display your local IP addresses, and it does not send analytics, telemetry, IP addresses, or any other data off your Mac.
+
+See [PRIVACY.md](PRIVACY.md) for the full privacy note.
+
+## Support
+
+If the menu bar shows `No IP`, make sure your Mac is connected to a network with a valid IPv4 address. Self-assigned `169.254.x.x` addresses are ignored.
+
+More help is available in [SUPPORT.md](SUPPORT.md).
+
+## Development
+
+Requirements:
+
+- macOS 13 or newer
+- Swift 6 / Xcode command line tools
+
+Run from source:
 
 ```sh
 swift run ExposeIPAddress
 ```
 
-The menu bar item shows the primary local IP address macOS is using for outbound traffic. Its menu includes:
-
-- all active local IPv4 addresses, grouped by interface with Wi-Fi/LAN icons
-- `Copy Primary IP`
-- `Refresh` and automatic network-change refresh
-- `Launch at Login`
-- `About Exposé IP Address`
-- `Quit`
-
-## Privacy
-
-Exposé IP Address reads local macOS network interface information only. It does not send analytics, telemetry, IP addresses, or any other data off your Mac.
-
-See [PRIVACY.md](PRIVACY.md).
-
-## Test
+Run tests:
 
 ```sh
 swift test
 ```
 
-## Build an app bundle
+Build the app bundle:
 
 ```sh
 ./scripts/build-app.sh
 ```
 
-The script creates `dist/Exposé IP Address.app`.
+The app bundle is created at `dist/Exposé IP Address.app`.
 
-## Package a DMG
-
-Requires the `dmgforge` CLI from DMGForge:
+Package a DMG with DMGForge:
 
 ```sh
 ./scripts/build-app.sh
 ./scripts/package-dmg.sh
 ```
 
-The script creates `release/Exposé IP Address.dmg`.
+The DMG is created at `release/Exposé IP Address.dmg`.
 
-## Signed Release Build
+## Release Signing
+
+Local development builds are ad-hoc signed and are not notarized.
 
 For public distribution, use a Developer ID Application certificate and Apple notarization credentials:
 
@@ -81,9 +97,7 @@ export APPLE_APP_SPECIFIC_PASSWORD="xxxx-xxxx-xxxx-xxxx"
 ./scripts/build-signed-release.sh
 ```
 
-Local development builds are ad-hoc signed and are not notarized.
-
-The GitHub release workflow is manual-only until signing/notarization secrets are configured. It expects these repository secrets:
+The GitHub release workflow is manual-only until signing/notarization secrets are configured. It expects:
 
 - `CODE_SIGN_IDENTITY`
 - `APPLE_ID`
@@ -91,6 +105,6 @@ The GitHub release workflow is manual-only until signing/notarization secrets ar
 - `APPLE_APP_SPECIFIC_PASSWORD`
 - `DMGFORGE_CLI_URL`, a zip URL containing a `dmgforge` executable at the archive root
 
-## Support
+## License
 
-See [SUPPORT.md](SUPPORT.md).
+Exposé IP Address is released under the [MIT License](LICENSE).
