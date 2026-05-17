@@ -74,14 +74,16 @@ tell application "Finder"
     set toolbar visible of container window to false
     set statusbar visible of container window to false
     set sidebar width of container window to 0
-    set bounds of container window to {140, 140, 820, 640}
+    set bounds of container window to {140, 140, 820, 700}
 
     set viewOptions to icon view options of container window
     set arrangement of viewOptions to not arranged
-    set icon size of viewOptions to 112
+    set icon size of viewOptions to 96
 
-    set position of item "Open Security Settings.inetloc" of container window to {190, 375}
-    set position of item "First Launch Help.txt" of container window to {500, 375}
+    set position of item "Exposé IP Address.app" of container window to {190, 210}
+    set position of item "Applications" of container window to {500, 210}
+    set position of item "Open Security Settings.inetloc" of container window to {190, 420}
+    set position of item "First Launch Help.txt" of container window to {500, 420}
 
     update without registering applications
     delay 1
