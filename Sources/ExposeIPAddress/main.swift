@@ -1,5 +1,6 @@
 import AppKit
 import LocalIPCore
+import ServiceManagement
 
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
@@ -80,6 +81,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(NSMenuItem.separator())
 
+        let launchAtLoginEnabled = SMAppService.mainApp.status == .enabled
+        let launchAtLoginItem = NSMenuItem(
+            title: StatusDisplay.launchAtLoginTitle(isEnabled: launchAtLoginEnabled),
+            action: #selector(toggleLaunchAtLogin),
+            keyEquivalent: ""
+        )
+        launchAtLoginItem.target = self
+        launchAtLoginItem.state = launchAtLoginEnabled ? .on : .off
+        menu.addItem(launchAtLoginItem)
+
+        menu.addItem(NSMenuItem.separator())
+
         let quitItem = NSMenuItem(title: "Quit", action: #selector(quit), keyEquivalent: "q")
         quitItem.target = self
         menu.addItem(quitItem)
@@ -131,6 +144,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(ipAddress, forType: .string)
+    }
+
+    @objc
+    private func toggleLaunchAtLogin() {
+        do {
+            if SMAppService.mainApp.status == .enabled {
+                try SMAppService.mainApp.unregister()
+            } else {
+                try SMAppService.mainApp.register()
+            }
+            refreshIPAddress()
+        } catch {
+            showLaunchAtLoginError(error)
+        }
+    }
+
+    private func showLaunchAtLoginError(_ error: Error) {
+        let alert = NSAlert()
+        alert.messageText = "Could not update Launch at Login"
+        alert.informativeText = error.localizedDescription
+        alert.alertStyle = .warning
+        alert.runModal()
     }
 
     @objc

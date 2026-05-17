@@ -3,12 +3,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "LocalIPMenuBar",
+    name: "ExposeIPAddress",
     platforms: [
         .macOS(.v13)
     ],
     products: [
-        .executable(name: "LocalIPMenuBar", targets: ["LocalIPMenuBar"])
+        .executable(name: "ExposeIPAddress", targets: ["ExposeIPAddress"])
     ],
     targets: [
         .target(
@@ -18,8 +18,11 @@ let package = Package(
             ]
         ),
         .executableTarget(
-            name: "LocalIPMenuBar",
-            dependencies: ["LocalIPCore"]
+            name: "ExposeIPAddress",
+            dependencies: ["LocalIPCore"],
+            linkerSettings: [
+                .linkedFramework("ServiceManagement")
+            ]
         ),
         .testTarget(
             name: "LocalIPCoreTests",

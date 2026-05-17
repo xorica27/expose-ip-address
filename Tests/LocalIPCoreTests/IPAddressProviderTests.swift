@@ -63,3 +63,9 @@ func usesSymbolsForInterfaceMenuItems() {
     #expect(StatusDisplay.symbolName(for: .wired) == "cable.connector")
     #expect(StatusDisplay.symbolName(for: .other) == "network")
 }
+
+@Test("describes launch at login state")
+func describesLaunchAtLoginState() {
+    #expect(StatusDisplay.launchAtLoginTitle(isEnabled: true) == "Launch at Login: On")
+    #expect(StatusDisplay.launchAtLoginTitle(isEnabled: false) == "Launch at Login: Off")
+}

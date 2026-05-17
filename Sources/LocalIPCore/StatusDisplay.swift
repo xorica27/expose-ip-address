@@ -13,4 +13,8 @@ public enum StatusDisplay {
             "network"
         }
     }
+
+    public static func launchAtLoginTitle(isEnabled: Bool) -> String {
+        isEnabled ? "Launch at Login: On" : "Launch at Login: Off"
+    }
 }
