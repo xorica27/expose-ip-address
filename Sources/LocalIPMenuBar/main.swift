@@ -1,7 +1,6 @@
 import AppKit
 import LocalIPCore
 
-@main
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem?
@@ -66,3 +65,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.terminate(nil)
     }
 }
+
+let application = NSApplication.shared
+let delegate = AppDelegate()
+application.delegate = delegate
+application.run()

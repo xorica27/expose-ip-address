@@ -24,8 +24,8 @@ func ignoresAddressesThatShouldNotBeShownInTheMenuBar() {
     #expect(IPAddressProvider.preferredIPv4Address(from: interfaces) == nil)
 }
 
-@Test("uses a compact menu bar title so the item stays visible")
-func usesCompactMenuBarTitle() {
-    #expect(StatusDisplay.menuBarTitle(for: "192.168.1.42") == "IP")
-    #expect(StatusDisplay.menuBarTitle(for: nil) == "IP")
+@Test("uses the IP address as the visible menu bar title")
+func usesIPAddressAsVisibleMenuBarTitle() {
+    #expect(StatusDisplay.menuBarTitle(for: "192.168.1.42") == "192.168.1.42")
+    #expect(StatusDisplay.menuBarTitle(for: nil) == "No IP")
 }
