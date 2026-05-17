@@ -11,7 +11,12 @@ let package = Package(
         .executable(name: "LocalIPMenuBar", targets: ["LocalIPMenuBar"])
     ],
     targets: [
-        .target(name: "LocalIPCore"),
+        .target(
+            name: "LocalIPCore",
+            linkerSettings: [
+                .linkedFramework("SystemConfiguration")
+            ]
+        ),
         .executableTarget(
             name: "LocalIPMenuBar",
             dependencies: ["LocalIPCore"]
