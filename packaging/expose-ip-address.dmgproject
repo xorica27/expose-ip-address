@@ -2,8 +2,8 @@
   "appName" : "Exposé IP Address",
   "appPath" : "dist\/Exposé IP Address.app",
   "background" : {
-    "description" : "Drag Exposé IP Address into Applications to install.",
-    "footer" : "Shows your primary local IP and active Wi‑Fi\/LAN addresses from the menu bar.",
+    "description" : "Drag Exposé IP Address into Applications, then open it from there.",
+    "footer" : "Blocked on first open? Use the Security Settings shortcut below, then click Open Anyway.",
     "mode" : "generated",
     "title" : "Install Exposé IP Address"
   },
@@ -27,7 +27,7 @@
   "version" : "1.0.0",
   "volumeName" : "Exposé IP Address 1.0.0",
   "window" : {
-    "height" : 420,
+    "height" : 500,
     "width" : 680
   }
 }

@@ -21,7 +21,7 @@ https://github.com/xorica27/expose-ip-address/releases/latest
 
 Open the DMG, then drag `Exposé IP Address.app` into `Applications`.
 
-For the smoothest first launch, public DMGs should be Developer ID signed and notarized by Apple. If you see a macOS warning that the app cannot be opened, use the latest notarized release or see [SUPPORT.md](SUPPORT.md).
+For the smoothest first launch, public DMGs should be Developer ID signed and notarized by Apple. While the app is distributed unsigned, the DMG includes first-launch help and a shortcut to open Privacy & Security if macOS asks you to approve the app manually.
 
 ## How To Use
 

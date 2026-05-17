@@ -25,6 +25,8 @@ macOS shows this warning when an app is not Developer ID signed and notarized by
 
 For the best install experience, download the latest public release. Public release DMGs should be Developer ID signed, notarized, and stapled so users can open the app after dragging it into `Applications`.
 
+While the app is distributed unsigned, the DMG includes `First Launch Help.txt` and `Open Security Settings`. If macOS blocks the first launch, click `Done`, open `Open Security Settings` from the DMG, then click `Open Anyway` for Exposé IP Address in Privacy & Security.
+
 If you built the app yourself from source, macOS may still show this warning because local development builds are ad-hoc signed.
 
 ## Reporting Issues
